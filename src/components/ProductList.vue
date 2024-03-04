@@ -16,10 +16,10 @@
           <h3 class="mt-2 text-xl font-medium">{{ product.name }}</h3>
           <p class="mb-2 text-gray-700">{{ product.description }}</p>
           <span class="font-bold text-green-500">{{ product.price }}</span>
-          <a
-            href="#"
+          <RouterLink
+            to="/product"
             class="float-right mt-2 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
-            >Add to Cart</a
+            >Add to Cart</RouterLink
           >
         </div>
       </div>
