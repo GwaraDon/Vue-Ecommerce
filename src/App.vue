@@ -7,7 +7,9 @@ import { RouterLink, RouterView } from "vue-router";
     <header
       class="flex items-center justify-between bg-gray-800 px-6 py-4 text-white"
     >
-      <h2 class="text-3xl font-bold">E-commerce</h2>
+      <h2 class="text-3xl font-bold">
+        <RouterLink to="/"> E-commerce</RouterLink>
+      </h2>
       <nav class="space-x-4">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
