@@ -2,7 +2,10 @@
   <main class="mx-auto max-w-7xl sm:px-6 sm:pt-16 lg:px-8">
     <div class="mx-auto max-w-2xl lg:max-w-none">
       <!-- Product -->
-      <div class="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
+      <div
+        v-if="singleProduct"
+        class="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8"
+      >
         <!-- Image gallery -->
         <TabGroup as="div" class="flex flex-col-reverse">
           <!-- Image selector -->
@@ -11,15 +14,12 @@
           >
             <TabList class="grid grid-cols-4 gap-6">
               <Tab
-                v-for="image in product.images"
-                :key="image.id"
                 class="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
                 v-slot="{ selected }"
               >
-                <span class="sr-only">{{ image.name }}</span>
                 <span class="absolute inset-0 overflow-hidden rounded-md">
                   <img
-                    :src="image.src"
+                    :src="singleProduct.image"
                     alt=""
                     class="h-full w-full object-cover object-center"
                   />
@@ -36,10 +36,10 @@
           </div>
 
           <TabPanels class="aspect-h-1 aspect-w-1 w-full">
-            <TabPanel v-for="image in product.images" :key="image.id">
+            <TabPanel>
               <img
-                :src="image.src"
-                :alt="image.alt"
+                :src="singleProduct.image"
+                :alt="singleProduct.title"
                 class="h-full w-full object-cover object-center sm:rounded-lg"
               />
             </TabPanel>
@@ -49,13 +49,13 @@
         <!-- Product info -->
         <div class="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
           <h1 class="text-3xl font-bold tracking-tight text-gray-900">
-            {{ product.name }}
+            {{ singleProduct.title }}
           </h1>
 
           <div class="mt-3">
             <h2 class="sr-only">Product information</h2>
             <p class="text-3xl tracking-tight text-gray-900">
-              {{ product.price }}
+              {{ singleProduct.price }}
             </p>
           </div>
 
@@ -76,7 +76,7 @@
                   aria-hidden="true"
                 />
               </div>
-              <p class="sr-only">{{ product.rating }} out of 5 stars</p>
+              <p class="sr-only">{{ singleProduct.rating }} out of 5 stars</p>
             </div>
           </div>
 
@@ -85,7 +85,7 @@
 
             <div
               class="space-y-6 text-base text-gray-700"
-              v-html="product.description"
+              v-html="singleProduct.description"
             />
           </div>
 
@@ -247,17 +247,11 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import {
-  Dialog,
-  DialogPanel,
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
-  Popover,
-  PopoverButton,
-  PopoverGroup,
-  PopoverPanel,
   RadioGroup,
   RadioGroupLabel,
   RadioGroupOption,
@@ -266,20 +260,11 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  TransitionChild,
-  TransitionRoot,
 } from "@headlessui/vue";
-import {
-  Bars3Icon,
-  HeartIcon,
-  MagnifyingGlassIcon,
-  MinusIcon,
-  PlusIcon,
-  ShoppingBagIcon,
-  UserIcon,
-  XMarkIcon,
-} from "@heroicons/vue/24/outline";
+import { HeartIcon, MinusIcon, PlusIcon } from "@heroicons/vue/24/outline";
 import { StarIcon } from "@heroicons/vue/20/solid";
+import { useRoute } from "vue-router";
+import useProduct from "@/composables/product";
 
 const navigation = {
   categories: [
@@ -538,6 +523,16 @@ const relatedProducts = [
 
 const open = ref(false);
 const selectedColor = ref(product.colors[0]);
+
+const { getProduct, singleProduct } = useProduct();
+const route = useRoute();
+const id = route.params.id;
+const isLoading = ref(false);
+
+onMounted(() => {
+  getProduct(id);
+  console.log(singleProduct);
+});
 </script>
 
 <style lang="scss" scoped></style>
