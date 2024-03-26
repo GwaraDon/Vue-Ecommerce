@@ -34,12 +34,12 @@
               class="flex items-start space-x-4 py-6"
             >
               <img
-                :src="product.imageSrc"
-                :alt="product.imageAlt"
+                :src="product.image"
+                :alt="product.title"
                 class="h-20 w-20 flex-none rounded-md object-cover object-center"
               />
               <div class="flex-auto space-y-1">
-                <h3>{{ product.name }}</h3>
+                <h3>{{ product.title }}</h3>
                 <p class="text-gray-500">{{ product.color }}</p>
                 <p class="text-gray-500">{{ product.size }}</p>
               </div>
@@ -410,20 +410,9 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { ChevronUpIcon } from "@heroicons/vue/20/solid";
+import { useCartStore } from "@/stores/cart";
+import { computed } from "vue";
 
-const products = [
-  {
-    id: 1,
-    name: "Micro Backpack",
-    href: "#",
-    price: "$70.00",
-    color: "Moss",
-    size: "5L",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/checkout-page-04-product-01.jpg",
-    imageAlt:
-      "Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps.",
-  },
-  // More products...
-];
+const cartStore = useCartStore();
+const products = computed(() => cartStore.cartItems);
 </script>

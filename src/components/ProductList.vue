@@ -33,6 +33,7 @@
           <span class="font-bold text-green-500">{{ product.price }}</span>
           <button
             type="button"
+            @click="addToCart(product)"
             class="float-right mt-2 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
           >
             Add to Cart
@@ -52,8 +53,13 @@ defineProps({
   required: false,
   default: "",
 });
+const emit = defineEmits(["add-to-cart"]);
 
 const { getAllProducts, products } = useProduct();
+const addToCart = (product) => {
+  console.log("Add to cart");
+  emit("add-to-cart", product);
+};
 
 onMounted(() => {
   getAllProducts();

@@ -1,8 +1,3 @@
-<script setup>
-import ProductList from "@/components/ProductList.vue";
-import BannerCarousel from "@/components/BannerCarousel.vue";
-</script>
-
 <template>
   <main>
     <section class="hero h-[300px] bg-cover bg-center">
@@ -25,7 +20,7 @@ import BannerCarousel from "@/components/BannerCarousel.vue";
     </section>
     <section class="product-carousel py-8">
       <div class="container mx-auto px-4">
-        <ProductList title="Featured Products" />
+        <ProductList title="Featured Products" @add-to-cart="store.addToCart" />
       </div>
     </section>
     <section class="cta bg-gray-100 py-8">
@@ -40,6 +35,13 @@ import BannerCarousel from "@/components/BannerCarousel.vue";
         >
       </div>
     </section>
-    <ProductList title="All Products" />
+    <ProductList title="All Products" @add-to-cart="store.addToCart" />
   </main>
 </template>
+<script setup>
+import ProductList from "@/components/ProductList.vue";
+import BannerCarousel from "@/components/BannerCarousel.vue";
+import { useCartStore } from "@/stores/cart";
+
+const store = useCartStore();
+</script>
